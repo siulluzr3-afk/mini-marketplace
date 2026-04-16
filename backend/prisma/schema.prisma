@@ -4,12 +4,17 @@ generator client {
 }
 
 // Configuración de la base de datos
-// Para desarrollo local: SQLite
-// Para producción (Neon): PostgreSQL
+// Para producción en Neon (PostgreSQL)
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+// Para desarrollo local con SQLite, cambiar a:
+// datasource db {
+//   provider = "sqlite"
+//   url      = env("DATABASE_URL")
+// }
 
 // Modelo de Usuario
 model User {

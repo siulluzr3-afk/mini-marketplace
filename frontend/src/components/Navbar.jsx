@@ -13,77 +13,78 @@ export default function Navbar() {
   }
 
   return (
-    <nav className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white shadow-2xl sticky top-0 z-50">
-      <div className="container mx-auto px-4">
-        <div className="flex justify-between items-center py-4">
-          <Link to="/" className="flex items-center gap-3 text-2xl font-bold hover:scale-105 transition-transform">
-            <span className="text-4xl">🛍️</span>
-            <span className="bg-white text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-pink-600">
-              Mini Market
-            </span>
-          </Link>
-
-          <div className="flex items-center gap-6">
-            <Link to="/" className="flex items-center gap-2 hover:text-yellow-300 transition-colors font-medium">
-              <span className="text-xl">🏪</span>
-              <span>Productos</span>
+    <nav className="bg-slate-900 text-white shadow-md sticky top-0 z-50">
+      <div className="bg-slate-800 py-2">
+        <div className="container mx-auto px-4">
+          <div className="flex justify-between items-center">
+            <Link to="/" className="flex items-center gap-2 text-xl font-bold hover:opacity-80 transition-opacity">
+              <span className="text-2xl">🛒</span>
+              <span>MiniMarket</span>
             </Link>
 
-            {isAuthenticated ? (
+            <div className="flex items-center gap-4">
+              {isAuthenticated ? (
+                <>
+                  <div className="flex items-center gap-2 text-sm">
+                    <span>Hola, {user?.name}</span>
+                  </div>
+                  <button
+                    onClick={handleLogout}
+                    className="text-sm hover:text-amazon-400 transition-colors"
+                  >
+                    Cerrar Sesión
+                  </button>
+                </>
+              ) : (
+                <div className="flex gap-3">
+                  <Link
+                    to="/login"
+                    className="text-sm hover:text-amazon-400 transition-colors"
+                  >
+                    Iniciar Sesión
+                  </Link>
+                  <Link
+                    to="/register"
+                    className="text-sm hover:text-amazon-400 transition-colors"
+                  >
+                    Crear cuenta
+                  </Link>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="bg-slate-900 py-3">
+        <div className="container mx-auto px-4">
+          <div className="flex items-center gap-6">
+            <Link to="/" className="hover:text-amazon-400 transition-colors text-sm font-medium">
+              Todos los productos
+            </Link>
+
+            {isAuthenticated && (
               <>
                 {isSeller() ? (
-                  <Link to="/seller/products" className="flex items-center gap-2 bg-yellow-400 text-indigo-900 px-4 py-2 rounded-full hover:bg-yellow-300 transition-all font-bold shadow-lg hover:shadow-xl">
-                    <span className="text-xl">📦</span>
-                    <span>Mis Productos</span>
+                  <Link to="/seller/products" className="hover:text-amazon-400 transition-colors text-sm font-medium">
+                    Mis Productos
                   </Link>
                 ) : (
                   <>
-                    <Link to="/cart" className="flex items-center gap-2 hover:text-yellow-300 transition-colors font-medium relative">
-                      <span className="text-2xl">🛒</span>
+                    <Link to="/cart" className="flex items-center gap-2 hover:text-amazon-400 transition-colors text-sm font-medium relative">
                       <span>Carrito</span>
                       {itemCount > 0 && (
-                        <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center animate-pulse shadow-lg">
+                        <span className="bg-amazon-500 text-white text-xs font-bold rounded-full px-2 py-0.5">
                           {itemCount}
                         </span>
                       )}
                     </Link>
-                    <Link to="/orders" className="flex items-center gap-2 hover:text-yellow-300 transition-colors font-medium">
-                      <span className="text-xl">📋</span>
-                      <span>Mis Órdenes</span>
+                    <Link to="/orders" className="hover:text-amazon-400 transition-colors text-sm font-medium">
+                      Devoluciones y Pedidos
                     </Link>
                   </>
                 )}
-
-                <div className="flex items-center gap-3 ml-4 pl-4 border-l-2 border-white/30">
-                  <div className="text-right">
-                    <p className="text-sm font-semibold">{user?.name}</p>
-                    <p className="text-xs text-yellow-200">
-                      {isSeller() ? '⭐ Vendedor' : '👤 Comprador'}
-                    </p>
-                  </div>
-                  <button
-                    onClick={handleLogout}
-                    className="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-full font-bold shadow-lg hover:shadow-xl transition-all"
-                  >
-                    🚪 Salir
-                  </button>
-                </div>
               </>
-            ) : (
-              <div className="flex gap-3">
-                <Link
-                  to="/login"
-                  className="bg-white text-indigo-600 hover:bg-yellow-300 hover:text-indigo-900 px-6 py-2 rounded-full font-bold shadow-lg hover:shadow-xl transition-all"
-                >
-                  🔑 Iniciar Sesión
-                </Link>
-                <Link
-                  to="/register"
-                  className="bg-yellow-400 text-indigo-900 hover:bg-yellow-300 px-6 py-2 rounded-full font-bold shadow-lg hover:shadow-xl transition-all"
-                >
-                  ✨ Registrarse
-                </Link>
-              </div>
             )}
           </div>
         </div>
