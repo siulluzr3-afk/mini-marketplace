@@ -1,0 +1,70 @@
+// Configuración del cliente Prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Configuración de la base de datos
+// Para desarrollo local: SQLite
+// Para producción (Neon): PostgreSQL
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// Modelo de Usuario
+model User {
+  id        Int        @id @default(autoincrement())
+  name      String
+  email     String     @unique
+  password  String     // Hash de la contraseña (bcrypt)
+  role      String     @default("BUYER") // BUYER o SELLER
+  createdAt DateTime   @default(now())
+
+  // Relaciones
+  products  Product[]  // Productos que vende (si es seller)
+  cartItems CartItem[] // Items en el carrito
+  orders    Order[]    // Órdenes realizadas
+}
+
+// Modelo de Producto
+model Product {
+  id          Int        @id @default(autoincrement())
+  name        String
+  description String
+  price       Float
+  stock       Int        @default(0)
+  imageUrl    String?    // URL de la imagen (opcional)
+  sellerId    Int        // ID del vendedor
+  createdAt   DateTime   @default(now())
+
+  // Relaciones
+  seller      User       @relation(fields: [sellerId], references: [id], onDelete: Cascade)
+  cartItems   CartItem[]
+}
+
+// Modelo de Item del Carrito
+model CartItem {
+  id        Int      @id @default(autoincrement())
+  userId    Int      // ID del usuario
+  productId Int      // ID del producto
+  quantity  Int      @default(1)
+
+  // Relaciones
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  // Un usuario solo puede tener un item por producto en el carrito
+  @@unique([userId, productId])
+}
+
+// Modelo de Orden (compra)
+model Order {
+  id        Int         @id @default(autoincrement())
+  userId    Int         // ID del usuario que realiza la compra
+  total     Float       // Total de la compra
+  status    String      @default("PENDING") // PENDING, COMPLETED, CANCELLED
+  createdAt DateTime    @default(now())
+
+  // Relaciones
+  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
