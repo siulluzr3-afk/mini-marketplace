@@ -95,6 +95,7 @@ export default function Cart() {
           >
             Vaciar carrito
           </button>
+          </div>
         </div>
       </div>
     </div>
