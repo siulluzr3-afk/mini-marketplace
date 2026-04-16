@@ -76,8 +76,8 @@ export default function Cart() {
                 </div>
               </div>
             ))}
-        </div>
-        <div className="bg-white border border-gray-200 rounded p-4 h-fit sticky top-4">
+          </div>
+          <div className="bg-white border border-gray-200 rounded p-4 h-fit sticky top-4">
           <div className="mb-4">
             <p className="text-lg mb-2">
               Subtotal ({cartItems.reduce((sum, item) => sum + item.quantity, 0)} artículos): <span className="font-bold text-slate-900">${total.toFixed(2)}</span>
